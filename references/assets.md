@@ -5,7 +5,7 @@
 Use Codex's integrated `image_gen` tool for new raster images, reference-based
 variants, edits, clean background plates, and transparent cutouts. Follow the
 imagegen skill and the tool's current schema. Do not use external video providers for images.
-No KIE or external image API key is needed for this route.
+No Higgsfield, KIE, or external image API key is needed for this route.
 
 1. Choose the visual direction and reuse one consistent style description.
 2. Prefer suitable supplied photography and genuine brand references. Identify
@@ -23,24 +23,27 @@ If the integrated model is unavailable, report that limitation and continue
 independent work. Do not silently use an external image provider. Generated
 images used as video inputs go only to the selected video provider.
 
-## Videos: choose kie.ai or Higgsfield when needed
+## Videos: Higgsfield by default, kie.ai as the second option
 
 Honor the user's provider choice. Otherwise read `COOL_WEBSITE_VIDEO_PROVIDER`
-from the process environment or nearest project `.env`; default to `kie`.
+from the process environment or nearest project `.env`; default to `higgsfield`.
 Copy the supplied `.env.example` into the website project root as `.env` and
 fill only that provider's credentials. Never place secrets in the public build,
 frontend code, logs, or source control. A copied placeholder is not configured.
 The scripts read the nearest `.env` up to eight directories above the working
 directory; process environment values override it. Run from the website project.
 
-For **Higgsfield**, configure `HF_API_KEY_ID` and `HF_API_KEY_SECRET`, run
-`doctor.mjs --video --provider higgsfield`, and follow
+For **Higgsfield** (default), configure `HF_API_KEY_ID` and `HF_API_KEY_SECRET`,
+run `doctor.mjs --video`, and follow
 [higgsfield-api.md](higgsfield-api.md) for REST model selection and generation.
 The KIE helper does not route Higgsfield requests. Do not silently fall back to
 KIE if Higgsfield is unavailable. Check current API balance and pricing in the
 Higgsfield Console; `--probe` does not authenticate or check Higgsfield credit.
+If the user has no Higgsfield account yet, point them to
+https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus to sign up.
 
-For **KIE**, use the following existing helper:
+For **KIE** (second option, `COOL_WEBSITE_VIDEO_PROVIDER=kie`), use the
+following existing helper:
 
 The video helper supports `probe` and `shot`. Its current configured video
 model is `kling/v2-1-pro`. Verify current availability and pricing before paid
@@ -54,8 +57,8 @@ bash <skill>/scripts/encode.sh out/01.mp4 assets/01.mp4
 bash <skill>/scripts/encode.sh out/01.mp4 assets/01-m.mp4 mobile
 ```
 
-KIE video generation requires `KIE_AI_API_KEY`; Higgsfield needs only its own
-credentials. Supplied footage can be prepared locally without an API call. A page with images and CSS/JS motion
+Higgsfield needs only `HF_API_KEY_ID` and `HF_API_KEY_SECRET`; KIE video
+generation requires `KIE_AI_API_KEY`. Supplied footage can be prepared locally without an API call. A page with images and CSS/JS motion
 does not need generated video. Choose the number of assets from the design;
 ordinary multi-section pages use at most two video-scrub acts.
 

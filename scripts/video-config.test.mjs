@@ -5,17 +5,18 @@ import os from "node:os";
 import path from "node:path";
 import { readConfig, videoConfig } from "./video-config.mjs";
 
-test("example credentials fail for either provider; KIE remains the default", () => {
+test("example credentials fail for either provider; Higgsfield is the default", () => {
   const example = fs.readFileSync(new URL("../.env.example", import.meta.url), "utf8");
   const values = Object.fromEntries(example.split(/\r?\n/).filter(l => /^[A-Z_]+=/.test(l)).map(l => l.split("=")));
-  assert.deepEqual(videoConfig(values).missing, ["KIE_AI_API_KEY"]);
-  assert.deepEqual(videoConfig(values, "higgsfield").missing, ["HF_API_KEY_ID", "HF_API_KEY_SECRET"]);
-  assert.equal(videoConfig({}).provider, "kie");
+  assert.deepEqual(videoConfig(values).missing, ["HF_API_KEY_ID", "HF_API_KEY_SECRET"]);
+  assert.deepEqual(videoConfig(values, "kie").missing, ["KIE_AI_API_KEY"]);
+  assert.equal(videoConfig({}).provider, "higgsfield");
 });
 
 test("provider validation requires only selected credentials", () => {
   assert.deepEqual(videoConfig({ HF_API_KEY_ID: "test-id", HF_API_KEY_SECRET: "test-secret" }, "higgsfield").missing, []);
-  assert.deepEqual(videoConfig({ KIE_AI_API_KEY: "test-key" }).missing, []);
+  assert.deepEqual(videoConfig({ KIE_AI_API_KEY: "test-key" }, "kie").missing, []);
+  assert.deepEqual(videoConfig({ HF_API_KEY_ID: "test-id", HF_API_KEY_SECRET: "test-secret" }).missing, []);
   assert.deepEqual(videoConfig({ HF_API_KEY_ID: "test-id", HF_API_KEY_SECRET: "" }, "higgsfield").missing, ["HF_API_KEY_SECRET"]);
   assert.throws(() => videoConfig({}, "typo"), /provider must be/);
 });
@@ -35,7 +36,7 @@ test("nearest .env, quoted values, comments and process overrides agree", () => 
     assert.equal(values.KIE_AI_API_KEY, "test-key");
     assert.equal(values.HF_API_KEY_ID, undefined);
     assert.equal(readConfig(nested, { KIE_AI_API_KEY: "override" }).KIE_AI_API_KEY, "override");
-    assert.deepEqual(videoConfig(readConfig(nested, { KIE_AI_API_KEY: "" })).missing, ["KIE_AI_API_KEY"]);
+    assert.deepEqual(videoConfig(readConfig(nested, { KIE_AI_API_KEY: "" }), "kie").missing, ["KIE_AI_API_KEY"]);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

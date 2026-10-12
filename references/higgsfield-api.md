@@ -1,16 +1,18 @@
-# Higgsfield API for optional videos
+# Higgsfield API for videos (default provider)
 
-Use this route when the user chooses Higgsfield or
-`COOL_WEBSITE_VIDEO_PROVIDER=higgsfield`. This is the official REST API,
+This is the default video route. Use it unless the user chooses KIE or
+`COOL_WEBSITE_VIDEO_PROVIDER=kie` is set. This is the official REST API,
 not browser automation or a Higgsfield CLI session. Images still use the
 integrated image model. No KIE key is required for this route.
 
 ## Setup and model choice
 
-1. Copy `.env.example` to the website project root as `.env`. Fill
+1. No Higgsfield account yet? Sign up via
+   [higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus](https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus).
+   Copy `.env.example` to the website project root as `.env`. Fill
    `HF_API_KEY_ID` and `HF_API_KEY_SECRET` from the
-   [Console](https://console.higgsfield.ai/), and select `higgsfield`.
-2. Run `node <skill>/scripts/doctor.mjs --video --provider higgsfield`.
+   [Console](https://console.higgsfield.ai/); `higgsfield` is already selected.
+2. Run `node <skill>/scripts/doctor.mjs --video`.
    This is a local configuration check, not proof of authentication or credit.
 3. Check API balance, model access, current schema and price in the official
    Console/docs. Record provider, exact model ID and authorized budget in

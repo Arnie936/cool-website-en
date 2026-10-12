@@ -12,8 +12,8 @@ Looking for German output? Use the original
 - Clarifies the offer, audience, design, and the visitor action you want.
 - Plans the page structure, visual layers, and fitting interactions.
 - Uses your existing media or Codex's integrated image model for images and
-  image edits. Videos are generated when needed via kie.ai or the official
-  Higgsfield API.
+  image edits. Videos are generated when needed via the official Higgsfield
+  API (default) or kie.ai as the second option.
 - After the first interview round it offers SEO with the DataForSEO MCP and
   guides you through setup, keyword research, implementation, and checks.
 - Builds HTML pages on a bundled JavaScript/CSS engine.
@@ -58,7 +58,7 @@ external connections.
 | Check the website visually | Integrated browser via `mcp__cua_repl` |
 | Use the helper scripts | Node.js 18 or newer |
 | Prepare videos for scrolling | Full FFmpeg build and Bash, on Windows e.g. Git Bash |
-| Generate videos, optional | kie.ai with `KIE_AI_API_KEY` or the Higgsfield API with `HF_API_KEY_ID` and `HF_API_KEY_SECRET`, each with API credit |
+| Generate videos, optional | Higgsfield API with `HF_API_KEY_ID` and `HF_API_KEY_SECRET` (default; [sign up here](https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus)) or kie.ai with `KIE_AI_API_KEY`, each with API credit |
 | Data-driven SEO, optional | DataForSEO account and a connected DataForSEO MCP |
 
 The integrated image and browser features must be available in the Codex
@@ -99,33 +99,38 @@ tools are available or that an external login succeeded.
 
 ## Configure the video provider
 
+Higgsfield is the default video provider, kie.ai is the second option.
+No Higgsfield account yet? **[Sign up here](https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus)**,
+then create your API keys in the [Higgsfield Console](https://console.higgsfield.ai/).
+
 There is a [.env.example](.env.example). Copy it as `.env` into the root of your
 website project and fill in only the credentials of the provider you want.
-Example configuration for Higgsfield:
+Default configuration for Higgsfield:
 
 ```dotenv
 COOL_WEBSITE_VIDEO_PROVIDER=higgsfield
-KIE_AI_API_KEY=your_kie_api_key
 HF_API_KEY_ID=your_higgsfield_key_id
 HF_API_KEY_SECRET=your_higgsfield_key_secret
+KIE_AI_API_KEY=your_kie_api_key
 ```
 
 For KIE, set the provider to `kie` and fill in `KIE_AI_API_KEY`.
-Unused placeholders can stay. Without a provider choice, KIE remains the
+Unused placeholders can stay. Without a provider choice, Higgsfield is the
 default. Environment variables that are already set take precedence over the
 nearest `.env` above the working folder. Images and existing videos need none
 of these keys. Never copy `.env` into the public website folder or commit it;
 exclude it via `.gitignore` in the website project as well.
 
 ```sh
-node .agents/skills/cool-website/scripts/doctor.mjs --video --provider higgsfield
+node .agents/skills/cool-website/scripts/doctor.mjs --video
+node .agents/skills/cool-website/scripts/doctor.mjs --video --provider kie
 ```
 
 The check rejects empty values and the shipped placeholders, and only requires
 the credentials of the selected provider. It does not authenticate Higgsfield.
-`--provider` overrides the selection for this check only. KIE keeps using
-`scripts/kie.mjs`; for Higgsfield the agent follows the
-[REST guide](references/higgsfield-api.md). You get API keys in the
+`--provider` overrides the selection for this check only. For Higgsfield the
+agent follows the [REST guide](references/higgsfield-api.md); KIE keeps using
+`scripts/kie.mjs`. You get API keys in the
 [Higgsfield Console](https://console.higgsfield.ai/). A website subscription or
 CLI login does not replace these API credentials.
 

@@ -88,10 +88,11 @@ Under reduced motion, clips should remain unfetched, posters should hold, and
 all copy, controls, and horizontal-rail content must remain reachable. Check
 no-WebGL and no-JavaScript fallbacks where applicable and supported.
 
-**Video credit accounting.** Only generated videos use kie.ai. Record the
+**Video credit accounting.** Only generated videos use the video provider
+(Higgsfield by default, or kie.ai). Record the
 actual calls and distinguish current estimates from measured charges. An
 account balance difference cannot isolate this build when other jobs share the
-account. Integrated image generation does not consume the KIE video budget.
+account. Integrated image generation does not consume the video budget.
 
 **Mobile.** Pinned stages use `100svh` so the URL bar does not cause a jump.
 Copy reflows and does not collide with the fixed bar. Confirm the phone encodes

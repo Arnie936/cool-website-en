@@ -6,7 +6,10 @@
   (`<html lang="en">`); another language still applies when the user asks for it.
 - Translate the README, the DataForSEO setup and SEO guides, the page template
   copy, the SEO question in Step 0a, and the agent metadata to English.
-- Video provider defaults, scripts, engine, and all links are unchanged.
+- Higgsfield API is the default video provider; kie.ai is the second option
+  (`COOL_WEBSITE_VIDEO_PROVIDER=kie`). Preflight, tests, and docs follow suit.
+- Add the Higgsfield sign-up link for users without an account.
+- Engine and the remaining scripts are unchanged.
 
 ## Optional Higgsfield video API
 

@@ -3,7 +3,7 @@
  * Preflight. Run after the brief and before building.
  *
  *   node scripts/doctor.mjs            check everything
- *   node scripts/doctor.mjs --video --provider higgsfield   check Higgsfield credentials
+ *   node scripts/doctor.mjs --video    check Higgsfield credentials (default provider)
  *   node scripts/doctor.mjs --probe --provider kie   read KIE balance
  *
  * Every check that can fail deep inside a build with a misleading message is
@@ -96,16 +96,18 @@ if (needsVideo) {
   try {
     const index = process.argv.indexOf("--provider");
     if (index !== -1 && (!process.argv[index + 1] || process.argv[index + 1].startsWith("--"))) {
-      throw new Error("--provider requires kie or higgsfield.");
+      throw new Error("--provider requires higgsfield or kie.");
     }
     selectedVideo = videoConfig(readConfig(), index === -1 ? undefined : process.argv[index + 1]);
     for (const key of selectedVideo.required) {
       const ok = !selectedVideo.missing.includes(key);
       add("required", `${key} (${selectedVideo.provider})`, ok, ok ? "configured (not authenticated)" : "missing or placeholder",
-        "Copy .env.example to the website project root as .env and fill the selected provider credentials.");
+        selectedVideo.provider === "higgsfield"
+          ? "Copy .env.example to the website project root as .env and fill the Higgsfield API keys. No account yet? Sign up at https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus, then create keys at https://console.higgsfield.ai/."
+          : "Copy .env.example to the website project root as .env and fill KIE_AI_API_KEY.");
     }
   } catch (error) {
-    add("required", "video provider", false, error.message, "Use kie or higgsfield.");
+    add("required", "video provider", false, error.message, "Use higgsfield or kie.");
   }
 }
 

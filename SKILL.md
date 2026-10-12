@@ -3,8 +3,8 @@ name: cool-website
 description: >
   Builds custom landing pages, in English by default, with spatial hero
   entrances, scroll animations and distinctive interactions. Uses supplied
-  media or the integrated image model for images, kie.ai or the Higgsfield API
-  for videos, and the integrated browser for verification. After the first
+  media or the integrated image model for images, the Higgsfield API (default)
+  or kie.ai for videos, and the integrated browser for verification. After the first
   interview it offers optional data-driven SEO with the DataForSEO MCP,
   including setup. Use for Cool Website, interactive landing pages, cinematic
   websites and scrollytelling.
@@ -23,10 +23,12 @@ description: >
 - Generate and edit raster images with Codex's integrated `image_gen` tool
   by default. Follow the available imagegen skill and current tool schema.
   No external image API key is required. Use supplied assets when suitable.
-- For generated videos, offer kie.ai or the official Higgsfield API. Honor the
-  user's choice; otherwise use `COOL_WEBSITE_VIDEO_PROVIDER` (default `kie`).
-  KIE uses `scripts/kie.mjs shot`; Higgsfield uses the REST workflow in
-  [references/higgsfield-api.md](references/higgsfield-api.md).
+- For generated videos, the official Higgsfield API is the default and kie.ai
+  is the second option. Honor the user's choice; otherwise use
+  `COOL_WEBSITE_VIDEO_PROVIDER` (default `higgsfield`). Higgsfield uses the REST
+  workflow in [references/higgsfield-api.md](references/higgsfield-api.md);
+  KIE uses `scripts/kie.mjs shot`. If the user has no Higgsfield account yet,
+  point them to https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus to sign up.
   Configure only the selected provider using `.env.example`. Never switch
   providers silently or use either as an image-generation fallback.
 - All browser control and visual verification use the integrated browser
@@ -248,9 +250,11 @@ project root pointing at it and nothing moves.
 1. Images use the integrated image model; no external key is needed.
    For generated videos, copy `.env.example` to the website project root as
    `.env`, fill only the chosen provider, and run `doctor.mjs --video`.
-   `--provider kie|higgsfield` overrides the configured provider for this check.
-   KIE uses `KIE_AI_API_KEY` and `scripts/kie.mjs probe`; Higgsfield uses
-   `HF_API_KEY_ID` plus `HF_API_KEY_SECRET` and its Console for balance/pricing.
+   `--provider higgsfield|kie` overrides the configured provider for this check.
+   Higgsfield (default) uses `HF_API_KEY_ID` plus `HF_API_KEY_SECRET` and its
+   Console for balance/pricing; new accounts sign up at
+   https://higgsfield.ai/s/mcp-arnold-oberleiter-ecZvus. KIE uses `KIE_AI_API_KEY` and
+   `scripts/kie.mjs probe`.
    Follow [references/assets.md](references/assets.md). Record provider, model,
    and authorized budget in BRIEF.md. Supplied footage needs no API call.
 2. A brand kit if one exists (colours, logo, type, existing product shots). If
@@ -379,8 +383,8 @@ If the built-in model is unavailable, report that and continue work that does
 not depend on it; do not silently switch image providers.
 
 Only if videos are needed, use a selected still as the video input. For
-Higgsfield follow [higgsfield-api.md](references/higgsfield-api.md), then use
-these same encoding commands. For KIE:
+Higgsfield (default) follow [higgsfield-api.md](references/higgsfield-api.md),
+then use the encoding commands below. For KIE (second option):
 
 ```bash
 node <skill>/scripts/kie.mjs shot "<camera move>" assets/01-hero.png out/01.mp4 --dur 5

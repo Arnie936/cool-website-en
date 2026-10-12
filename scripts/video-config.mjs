@@ -37,9 +37,9 @@ export function hasCredential(value) {
 }
 
 export function videoConfig(values, override) {
-  const provider = (override ?? values.COOL_WEBSITE_VIDEO_PROVIDER ?? "kie").trim().toLowerCase();
+  const provider = (override ?? values.COOL_WEBSITE_VIDEO_PROVIDER ?? "higgsfield").trim().toLowerCase();
   if (!["kie", "higgsfield"].includes(provider)) {
-    throw new Error("Video provider must be kie or higgsfield (--provider or COOL_WEBSITE_VIDEO_PROVIDER).");
+    throw new Error("Video provider must be higgsfield or kie (--provider or COOL_WEBSITE_VIDEO_PROVIDER).");
   }
   const required = provider === "kie" ? ["KIE_AI_API_KEY"] : ["HF_API_KEY_ID", "HF_API_KEY_SECRET"];
   return { provider, required, missing: required.filter(key => !hasCredential(values[key])) };

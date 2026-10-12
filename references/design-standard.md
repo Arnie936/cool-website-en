@@ -69,7 +69,7 @@ Pause offscreen/hidden rendering, cap pixel density, and avoid permanent
 
 ## 4. Generate assets for compositing, then inspect the result
 
-Use the integrated image model for stills, edits, and cutouts. Use the selected provider, kie.ai or the official Higgsfield API, only
+Use the integrated image model for stills, edits, and cutouts. Use the selected provider, the official Higgsfield API (default) or kie.ai, only
 for video generation. Follow [assets.md](assets.md) for provider setup. Specify the full
 subject, camera, consistent light direction, clear silhouette, and generous
 safe margins. A label, wheel, flower, or handle cropped by the generated frame
