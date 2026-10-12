@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cool Website"
+  short_description: "English websites with scroll design and optional SEO"
+  default_prompt: "Use $cool-website to build a custom English website."
